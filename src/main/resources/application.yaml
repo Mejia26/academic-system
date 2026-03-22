@@ -1,0 +1,39 @@
+spring:
+  application:
+    name: management-system
+
+  # ==============================================================================
+  # DATABASE CONFIGURATION (PostgreSQL)
+  # ==============================================================================
+  datasource:
+    # If SPRING_DATASOURCE_URL is provided (e.g., by Docker), use it. 
+    # Otherwise, default to localhost for local IDE development.
+    url: ${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/academic_db}
+    username: ${SPRING_DATASOURCE_USERNAME:db_user}
+    password: ${SPRING_DATASOURCE_PASSWORD:db_password}
+    driver-class-name: org.postgresql.Driver
+
+  # ==============================================================================
+  # JPA / HIBERNATE CONFIGURATION
+  # ==============================================================================
+  jpa:
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    hibernate:
+      # 'validate' ensures the schema matches the DB without altering it.
+      # We use validate because our 01-schema.sql script creates the tables.
+      ddl-auto: ${SPRING_JPA_HIBERNATE_DDL_AUTO:validate}
+    
+    # Show SQL queries in the console (Very helpful for debugging)
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# ==============================================================================
+# CUSTOM APPLICATION PROPERTIES
+# ==============================================================================
+application:
+  security:
+    jwt:
+      secret-key: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+      expiration: 86400000 # 24 hours in milliseconds
